@@ -6,7 +6,7 @@ import time
 import cv2
 import argparse
 import numpy as np
-from models.yolo_model import YOLO
+from yolo_model import YOLO
 import pantilthat as pth
 
 
@@ -31,7 +31,7 @@ is_camera_still = args.still_camera
 is_cascade = args.is_cascade
 is_windows = args.is_windows
 is_wear_fun_hat = args.is_wear_fun_hat
-hat_path = './assets/Propeller_hat.svg.med.png'
+hat_path = '../assets/img/Propeller_hat.svg.med.png'
 hat_img = cv2.imread(hat_path, -1)
 # Frame dimensions vars
 FRAME_W = FRAME_H = 0
@@ -355,16 +355,16 @@ if __name__ == '__main__':
         None
     """
     # YOLOv4tiny defined with full body
-    cfg_file = 'cfg/custom-yolov4-tiny-detector.cfg'
-    weights_file = 'models/custom-yolov4-tiny-detector_best.weights'
-    file = 'models/custom-yolov4-tiny-detector.names'
+    cfg_file = '../cfg/custom-yolov4-tiny-detector.cfg'
+    weights_file = '../models/custom-yolov4-tiny-detector_best.weights'
+    file = '../names/custom-yolov4-tiny-detector.names'
     all_classes = get_classes(file)
     yolo = YOLO(cfg_file, weights_file)
 
     # YOLOv4tiny focused on faces
-    cfg_face_file = 'cfg/custom-yolov4-tiny-detector_face.cfg'
-    weights_face_file = 'models/custom-yolov4-tiny-detector_face_best.weights'
-    face_file = 'models/custom-yolov4-tiny-detector_face.names'
+    cfg_face_file = '../cfg/custom-yolov4-tiny-detector_face.cfg'
+    weights_face_file = '../models/custom-yolov4-tiny-detector_face_best.weights'
+    face_file = '../names/custom-yolov4-tiny-detector_face.names'
     all_classes_face = get_classes(face_file)
     yolo_face = YOLO(cfg_face_file, weights_face_file)
 
@@ -464,7 +464,7 @@ if __name__ == '__main__':
             is_wear_fun_hat = not is_wear_fun_hat
         elif key_stroke & 0xFF == ord('f'):
             is_wear_fun_hat = not is_wear_fun_hat
-        elif key_stroke & 0xFF == ord('r'):
+        elif key_stroke & 0xFF == ord('r') & (not is_windows):
             reset_camera_position()
         elif key_stroke & 0xFF == ord('w') & (not is_windows):
             man_move_camera('w')
