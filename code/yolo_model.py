@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 class YOLO:
-    def __init__(self, cfg, wts):
+    def __init__(self, cfg, wts, name='YOLO'):
         """Init.
 
         # Arguments
@@ -21,6 +21,9 @@ class YOLO:
         self.ln = self.net.getLayerNames()
         # index the output layers into an array
         self.ln = [self.ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
+        
+        self.name = name
+
 
     def predict(self, image, shape):
         """Detect the objects with yolo.

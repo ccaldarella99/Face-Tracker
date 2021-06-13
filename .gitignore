@@ -1,6 +1,7 @@
 .ipynb_checkpoints
 .DS_Store
 scratch
+output
 *.zip
 *.pkl
 *.parquet

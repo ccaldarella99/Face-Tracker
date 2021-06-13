@@ -17,6 +17,7 @@ ap.add_argument("-bbb", "--show_blue_border_box", action="store_true", default=0
 ap.add_argument("-p", "--show_person_box", action="store_true", default=0, help="Draws a (green) box around the person. Default: Show box")
 ap.add_argument("-m", "--still_camera", action="store_true", default=0, help="Keep camera Still when enabled (1); otherwise the camera moves (0). Default: Camera moves")
 ap.add_argument("-c", "--is_cascade", action="store_true", default=0, help="Whether to use Haar Cascade (1) or YOLO (0). Default: Yolo (0)")
+ap.add_argument("-o", "--output_data", action="store_true", default=0, help="Whether to output FPS data to a .CSV file")
 ap.add_argument("-f", "--is_wear_fun_hat", action="store_true", default=0, help="Puts a fun hat on you. Works only with Haar Cascade ATM. Default: No fun hat")
 ap.add_argument("-w", "--is_windows", action="store_true", default=0, help="Runs on Windows (for testing, camera movement is disabled).")
 args = ap.parse_args()
@@ -30,12 +31,16 @@ show_boundary_box = args.show_blue_border_box
 show_person_box = args.show_person_box
 is_camera_still = args.still_camera
 is_cascade = args.is_cascade
+output_data = args.output_data
 is_windows = args.is_windows
 is_wear_fun_hat = args.is_wear_fun_hat
 shrink_person_box = False
 show_onscreen_help = False
 hat_path = '../assets/img/Propeller_hat.svg.med.png'
 hat_img = cv2.imread(hat_path, -1)
+# create Data Frame
+df = pd.DataFrame({'Model':['Test'], 'FPS': np.nan, 'time': [0]})
+df.dropna(inplace=True) # To retain column order
 # Frame dimensions vars
 FRAME_W = FRAME_H = 0
 x = y = w = h = 0
@@ -237,7 +242,6 @@ def draw(image, boxes, scores, classes, all_classes):
     return
 
 
-# def detect_image(image, yolo, all_classes):
 def detect_image(image, yolo, all_classes, w_img=0, h_img=0):
     """Use yolo v4 tiny to detect images.
 
@@ -257,9 +261,13 @@ def detect_image(image, yolo, all_classes, w_img=0, h_img=0):
         h_img = image.shape[1]
     boxes, classes, scores = yolo.predict(image, (w_img, h_img))
     end = time.time()
+    t = end - start
+    global df
+    df = df.append({'Model': yolo.name, 'FPS': (1/t), 'time': t}, ignore_index=True)
+
 
     if(show_text):
-        show_time_and_fps(end - start)
+        show_time_and_fps(t)
     print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
     if boxes is not None:
         draw(image, boxes, scores, classes, all_classes)
@@ -371,7 +379,8 @@ def show_time_and_fps(t):
         None
     """
     f = 1/t
-    fps_text1 = f'FPS: {f:.2f},    render time: {t:.2f}'
+    od = 'Y' if(output_data) else 'N'
+    fps_text1 = f'FPS: {f:.2f},    render time: {t:.2f},  Output: {od}'
     cv2.putText(frame,
                 fps_text1,
                 (10, 60),
@@ -435,6 +444,23 @@ def reset_camera_position():
     time.sleep(2)
 
 
+def get_date_time(suffix=''):
+    year = time.localtime().tm_year
+    month = time.localtime().tm_mon
+    mday = time.localtime().tm_mday
+    hour = time.localtime().tm_hour
+    min = time.localtime().tm_min
+    sec = time.localtime().tm_sec
+    fill_mo = '0' if(month < 10) else ''
+    fill_day = '0' if(mday < 10) else ''
+    fill_hr = '0' if(hour < 10) else ''
+    fill_min = '0' if(min < 10) else ''
+    fill_sec = '0' if(sec < 10) else ''
+    output_str = str(year) + fill_mo + str(month) + fill_day + str(mday)
+    output_str += '_' + fill_hr + str(hour) + fill_min + str(min) + fill_sec + str(sec)
+    return output_str + suffix
+
+
 if __name__ == '__main__':
     """Main Function.
 
@@ -449,14 +475,14 @@ if __name__ == '__main__':
     weights_file = '../models/custom-yolov4-tiny-detector_best.weights'
     file = '../names/custom-yolov4-tiny-detector.names'
     all_classes = get_classes(file)
-    yolo = YOLO(cfg_file, weights_file)
+    yolo = YOLO(cfg_file, weights_file, 'YOLO-Body')
 
     # YOLOv4tiny focused on faces
     cfg_face_file = '../cfg/custom-yolov4-tiny-detector_face.cfg'
     weights_face_file = '../models/custom-yolov4-tiny-detector_face_best.weights'
     face_file = '../names/custom-yolov4-tiny-detector_face.names'
     all_classes_face = get_classes(face_file)
-    yolo_face = YOLO(cfg_face_file, weights_face_file)
+    yolo_face = YOLO(cfg_face_file, weights_face_file, 'YOLO-Face')
 
     # Turn the camera to the default position
     if(not is_camera_still):
@@ -520,9 +546,11 @@ if __name__ == '__main__':
             end = time.time()
             print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
             # Show stats, e.g. camera tracking on, positions, model, etc.
+            t = end - start
             if(show_text):
                 show_stats(x, y, w, h)
-                show_time_and_fps(end - start)
+                show_time_and_fps(t)
+            df = df.append({'Model': 'Haar Cascade', 'FPS': (1/t), 'time': t}, ignore_index=True)
         else:
             # IS YOLO
             if(is_yolo_face):
@@ -566,6 +594,8 @@ if __name__ == '__main__':
             is_windows = not is_windows
         elif key_stroke & 0xFF == ord('k'):
             shrink_person_box = not shrink_person_box
+        elif key_stroke & 0xFF == ord('o'):
+            output_data = not output_data
         
         if(not is_windows):
             if key_stroke & 0xFF == ord('r'):
@@ -581,6 +611,14 @@ if __name__ == '__main__':
 
 
         prev_time = time.time()
+    # output dated file
+    if(output_data):
+        file_out = get_date_time(suffix='_stats.csv')
+        path_out = '../output/'
+        if(not os.path.exists(path_out)):
+            os.mkdir(path_out)
+        path_and_file_out = path_out + file_out
+        df.to_csv(path_and_file_out)
     # Release/Destroy resources when finished
     cap.release()
     cv2.destroyAllWindows()
