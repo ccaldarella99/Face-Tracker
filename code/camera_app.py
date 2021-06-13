@@ -247,7 +247,7 @@ def detect_image(image, yolo, all_classes, w_img=0, h_img=0):
     boxes, classes, scores = yolo.predict(image, (w_img, h_img))
     end = time.time()
 
-    print('time: {0:.2f}s'.format(end - start), end='\r')
+    print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
     if boxes is not None:
         draw(image, boxes, scores, classes, all_classes)
 
@@ -410,6 +410,7 @@ if __name__ == '__main__':
             frame = cv2.flip(frame, 0)
 
         if(is_cascade):  # | args.is_cascade):
+            start = time.time()
             faces = faceCascade.detectMultiScale(frame, 1.1, 3)
             for (x, y, w, h) in faces:
                 if(is_wear_fun_hat):
@@ -429,6 +430,8 @@ if __name__ == '__main__':
             # Show stats, e.g. camera tracking on, positions, model, etc.
             if(show_text):
                 show_stats(x, y, w, h)
+            end = time.time()
+            print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
         else:
             # IS YOLO
             if(is_yolo_face):
