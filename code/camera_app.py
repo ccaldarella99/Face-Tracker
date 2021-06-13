@@ -397,7 +397,7 @@ def show_time_and_fps(t):
 
 
 def draw_fun_hat():
-    """Draw a fun hat on the subjet in frame.
+    """Draw a fun hat on the subject in frame.
         Note: this is currently only implemented
                 for the Haar Cascade model
 
