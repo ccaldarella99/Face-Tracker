@@ -13,7 +13,7 @@ import pantilthat as pth
 
 # Input Args/Switches
 ap = argparse.ArgumentParser()
-ap.add_argument("-bbb", "--show_blue_border_box", action="store_true", default=0, help="Draws a (blue) border boundary box which can dictate camera movement. Default: Show box")
+ap.add_argument("-b", "--show_blue_border_box", action="store_true", default=0, help="Draws a (blue) border boundary box which can dictate camera movement. Default: Show box")
 ap.add_argument("-p", "--show_person_box", action="store_true", default=0, help="Draws a (green) box around the person. Default: Show box")
 ap.add_argument("-m", "--still_camera", action="store_true", default=0, help="Keep camera Still when enabled (1); otherwise the camera moves (0). Default: Camera moves")
 ap.add_argument("-c", "--is_cascade", action="store_true", default=0, help="Whether to use Haar Cascade (1) or YOLO (0). Default: Yolo (0)")
@@ -25,17 +25,17 @@ args = ap.parse_args()
 
 # GLOBALS
 key_letter = 27
-show_text = False
-is_yolo_face = False
 show_boundary_box = args.show_blue_border_box
 show_person_box = args.show_person_box
-is_camera_still = args.still_camera
 is_cascade = args.is_cascade
 output_data = args.output_data
-is_windows = args.is_windows
 is_wear_fun_hat = args.is_wear_fun_hat
-shrink_person_box = not is_cascade
+is_windows = args.is_windows
+show_text = False
+is_yolo_face = False
 show_onscreen_help = False
+shrink_person_box = not is_cascade
+is_camera_still = (args.still_camera) or (is_windows)
 hat_path = '../assets/img/Propeller_hat.svg.med.png'
 hat_img = cv2.imread(hat_path, -1)
 # create Data Frame
