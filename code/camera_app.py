@@ -6,6 +6,7 @@ import time
 import cv2
 import argparse
 import numpy as np
+import pandas as pd
 from yolo_model import YOLO
 import pantilthat as pth
 
@@ -31,6 +32,8 @@ is_camera_still = args.still_camera
 is_cascade = args.is_cascade
 is_windows = args.is_windows
 is_wear_fun_hat = args.is_wear_fun_hat
+shrink_person_box = False
+show_onscreen_help = False
 hat_path = '../assets/img/Propeller_hat.svg.med.png'
 hat_img = cv2.imread(hat_path, -1)
 # Frame dimensions vars
@@ -99,6 +102,14 @@ def move_camera(x, y, w, h):
     """
     if(is_camera_still):
         return
+    if(shrink_person_box):
+        #for camera tracking only
+        # shrink height and width by half
+        w = w//2
+        h = h//2
+        # center box by adding a quarter of w/h to x/y
+        x += w//2
+        y += h//2
 
     cam_pan = pth.get_pan()
     cam_tilt = pth.get_tilt()
@@ -256,6 +267,57 @@ def detect_image(image, yolo, all_classes, w_img=0, h_img=0):
     return image
 
 
+def show_help():
+    """Draw help commands at the bottom of the image.
+
+    # Argument:
+    None
+
+    # Returns
+        None
+    """
+    help_text1 = f'q: Quit; SHOW - h: help; b: bound box; p: person box; f: fun;'
+    cv2.putText(frame,
+                help_text1,
+                (10, FRAME_H - 80),
+                cv2.FONT_HERSHEY_DUPLEX,
+                0.6, (0, 0, 0), 1,
+                cv2.LINE_AA)
+    cv2.putText(frame,
+                help_text1,
+                (17, FRAME_H - 80),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6, (240, 240, 240), 1,
+                cv2.LINE_AA)
+    help_text2 = f'k: shrink bound box; m: man/auto cam (wasd); i: MS Win;'
+    cv2.putText(frame,
+                help_text2,
+                (10, FRAME_H - 60),
+                cv2.FONT_HERSHEY_DUPLEX,
+                0.6, (0, 0, 0), 1,
+                cv2.LINE_AA)
+    cv2.putText(frame,
+                help_text2,
+                (17, FRAME_H - 60),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6, (240, 240, 240), 1,
+                cv2.LINE_AA)
+    help_text3 = f'c: Harr/YOLO; y: YOLO body/face; t: stats; r: reset cam pos;'
+    cv2.putText(frame,
+                help_text3,
+                (10, FRAME_H - 40),
+                cv2.FONT_HERSHEY_DUPLEX,
+                0.6, (0, 0, 0), 1,
+                cv2.LINE_AA)
+    cv2.putText(frame,
+                help_text3,
+                (17, FRAME_H - 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6, (240, 240, 240), 1,
+                cv2.LINE_AA)
+    return
+
+
 def show_stats(x, y, w, h):
     """Draw interesting information at the top of the image.
 
@@ -309,7 +371,7 @@ def show_time_and_fps(t):
         None
     """
     f = 1/t
-    fps_text1 = f'FPS: {f:.2f},    time: {t:.2f}'
+    fps_text1 = f'FPS: {f:.2f},    render time: {t:.2f}'
     cv2.putText(frame,
                 fps_text1,
                 (10, 60),
@@ -470,6 +532,8 @@ if __name__ == '__main__':
 
         if(show_boundary_box):
             cv2.rectangle(frame, (w_min, h_min), (w_max, h_max), (255, 0, 0), 2)
+        if(show_onscreen_help):
+            show_help()
 
         ################ SHOW FRAME ################
         cv2.imshow('Video', frame)
@@ -493,13 +557,15 @@ if __name__ == '__main__':
         elif key_stroke & 0xFF == ord('y'):
             is_yolo_face = not is_yolo_face
         elif key_stroke & 0xFF == ord('h'):
-            is_wear_fun_hat = not is_wear_fun_hat
+            show_onscreen_help = not show_onscreen_help
         elif key_stroke & 0xFF == ord('f'):
             is_wear_fun_hat = not is_wear_fun_hat
         elif key_stroke & 0xFF == ord('t'):
             show_text = not show_text
         elif key_stroke & 0xFF == ord('i'):
             is_windows = not is_windows
+        elif key_stroke & 0xFF == ord('k'):
+            shrink_person_box = not shrink_person_box
         
         if(not is_windows):
             if key_stroke & 0xFF == ord('r'):
