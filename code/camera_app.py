@@ -34,7 +34,7 @@ is_cascade = args.is_cascade
 output_data = args.output_data
 is_windows = args.is_windows
 is_wear_fun_hat = args.is_wear_fun_hat
-shrink_person_box = False
+shrink_person_box = not is_cascade
 show_onscreen_help = False
 hat_path = '../assets/img/Propeller_hat.svg.med.png'
 hat_img = cv2.imread(hat_path, -1)
@@ -582,8 +582,14 @@ if __name__ == '__main__':
             is_camera_still = (not is_camera_still)
         elif key_stroke & 0xFF == ord('c'):
             is_cascade = not is_cascade
+            if(is_cascade):
+                shrink_person_box = False
         elif key_stroke & 0xFF == ord('y'):
             is_yolo_face = not is_yolo_face
+            if((not is_yolo_face) and (not is_cascade)):
+                shrink_person_box = True
+            else:
+                shrink_person_box = False
         elif key_stroke & 0xFF == ord('h'):
             show_onscreen_help = not show_onscreen_help
         elif key_stroke & 0xFF == ord('f'):
