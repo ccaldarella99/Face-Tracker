@@ -611,6 +611,7 @@ if __name__ == '__main__':
 
 
         prev_time = time.time()
+    print('\n')
     # output dated file
     if(output_data):
         file_out = get_date_time(suffix='_stats.csv')
@@ -619,6 +620,7 @@ if __name__ == '__main__':
             os.mkdir(path_out)
         path_and_file_out = path_out + file_out
         df.to_csv(path_and_file_out)
+        print(f'Output file created: {path_and_file_out}')
     # Release/Destroy resources when finished
     cap.release()
     cv2.destroyAllWindows()
