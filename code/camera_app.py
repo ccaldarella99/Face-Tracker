@@ -423,12 +423,12 @@ if __name__ == '__main__':
                                 0.6, (0, 255, 0), 1,
                                 cv2.LINE_AA)
 
-                # Show stats, e.g. camera tracking on, positions, model, etc.
-                if(show_text):
-                    show_stats(x, y, w, h)
                 if(not is_camera_still):
                     move_camera(x, y, w, h)
                 break
+            # Show stats, e.g. camera tracking on, positions, model, etc.
+            if(show_text):
+                show_stats(x, y, w, h)
         else:
             # IS YOLO
             if(is_yolo_face):
@@ -464,20 +464,23 @@ if __name__ == '__main__':
             is_wear_fun_hat = not is_wear_fun_hat
         elif key_stroke & 0xFF == ord('f'):
             is_wear_fun_hat = not is_wear_fun_hat
-        elif key_stroke & 0xFF == ord('r') & (not is_windows):
-            reset_camera_position()
-        elif key_stroke & 0xFF == ord('w') & (not is_windows):
-            man_move_camera('w')
-        elif key_stroke & 0xFF == ord('a') & (not is_windows):
-            man_move_camera('a')
-        elif key_stroke & 0xFF == ord('s') & (not is_windows):
-            man_move_camera('s')
-        elif key_stroke & 0xFF == ord('d') & (not is_windows):
-            man_move_camera('d')
         elif key_stroke & 0xFF == ord('t'):
             show_text = not show_text
         elif key_stroke & 0xFF == ord('i'):
             is_windows = not is_windows
+        
+        if(not is_windows):
+            if key_stroke & 0xFF == ord('r'):
+                reset_camera_position()
+            elif key_stroke & 0xFF == ord('w'):
+                man_move_camera('w')
+            elif key_stroke & 0xFF == ord('a'):
+                man_move_camera('a')
+            elif key_stroke & 0xFF == ord('s'):
+                man_move_camera('s')
+            elif key_stroke & 0xFF == ord('d'):
+                man_move_camera('d')
+
 
         prev_time = time.time()
     # Release/Destroy resources when finished

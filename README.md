@@ -1,7 +1,34 @@
 # Face-Tracker
-Is it possible to track a person and their movement with a moving camera? I plan on exploring this with a raspberry pi and moving camera, and possibly exploring the idea of tracking a toddler.
 
 
+## Contents
+ - [Problem Statement](#Problem-Statement)
+ - [Executive Summary](#Executive-Summary)
+ - [File Directory](#File-Directory)
+ - [Data](#Data)
+ - [Conclusion](#Conclusion)
+ - [Areas for Further Research/Study](#Areas-for-Further-Research/Study)
+ - [Sources](#Sources)
+ - [Visualizations](#Visualizations)
+
+
+## Problem Statement
+Is it possible to track a person and their movement with a moving camera? I plan on exploring this with a raspberry pi and moving camera, and possibly exploring the idea of tracking a toddler (my son).
+
+
+## Executive Summary
+
+
+
+## File Directory
+
+
+
+## Data
+
+
+
+## Conclusion
 
 
 
@@ -38,3 +65,6 @@ https://towardsdatascience.com/how-to-train-a-custom-object-detection-model-with
 https://blog.roboflow.com/cvat/
 https://blog.roboflow.com/train-yolov4-tiny-on-custom-data-lighting-fast-detection/
 https://www.youtube.com/watch?v=NTnZgLsk_DA&t=212s
+
+##### Haar Casacade
+
