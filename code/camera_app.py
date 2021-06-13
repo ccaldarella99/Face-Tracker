@@ -247,6 +247,8 @@ def detect_image(image, yolo, all_classes, w_img=0, h_img=0):
     boxes, classes, scores = yolo.predict(image, (w_img, h_img))
     end = time.time()
 
+    if(show_text):
+        show_time_and_fps(end - start)
     print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
     if boxes is not None:
         draw(image, boxes, scores, classes, all_classes)
@@ -291,6 +293,32 @@ def show_stats(x, y, w, h):
     cv2.putText(frame,
                 nerd_text2,
                 (17, 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6, (240, 240, 240), 1,
+                cv2.LINE_AA)
+    return
+
+
+def show_time_and_fps(t):
+    """Draw interesting time information at the top of the image.
+
+    # Argument:
+        t: time it takes to draw frame.
+
+    # Returns
+        None
+    """
+    f = 1/t
+    fps_text1 = f'FPS: {f:.2f},    time: {t:.2f}'
+    cv2.putText(frame,
+                fps_text1,
+                (10, 60),
+                cv2.FONT_HERSHEY_DUPLEX,
+                0.6, (0, 0, 0), 1,
+                cv2.LINE_AA)
+    cv2.putText(frame,
+                fps_text1,
+                (15, 60),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.6, (240, 240, 240), 1,
                 cv2.LINE_AA)
@@ -427,11 +455,12 @@ if __name__ == '__main__':
                 if(not is_camera_still):
                     move_camera(x, y, w, h)
                 break
+            end = time.time()
+            print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
             # Show stats, e.g. camera tracking on, positions, model, etc.
             if(show_text):
                 show_stats(x, y, w, h)
-            end = time.time()
-            print('time: {0:.2f}s   - FPS: {1:.2f}'.format((end - start), (1/(end - start))), end='\r')
+                show_time_and_fps(end - start)
         else:
             # IS YOLO
             if(is_yolo_face):
