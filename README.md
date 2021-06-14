@@ -7,9 +7,8 @@
  - [File Directory](#File-Directory)
  - [Data Description](#Data-Description)
  - [Conclusion](#Conclusion)
- - [Areas for Further Research/Study](#Areas-for-Further-Research/Study)
+ - [Future Considerations and Recommendations](#Future-Considerations-and-Recommendations)
  - [Sources](#Sources)
- - [Visualizations](#Visualizations)
 
 
 ## Problem Statement
@@ -148,7 +147,7 @@ https://www.youtube.com/watch?v=LmtHEBuJfII
 https://www.youtube.com/watch?v=joElT3UfspA
 
 
-##### Haar Casacade
+##### Haar Cascade
 https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html
 https://ieeexplore.ieee.org/document/710772
 https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf

@@ -395,13 +395,13 @@ Next, an AdaBoost algorithm is used to quickly "Cascade" through the features fi
 
 <img src="./assets/img/yolo_02.png" width="400" />
 
-YOLO was first outlined in a 2015 paper named ["You Only Look Once: Unified, Real-Time Object Detection"](https://arxiv.org/abs/1506.02640) by a group of professors from the University of Washington. One of the authors, Joseph Redmon (or github user [pjreddie](https://github.com/pjreddie)) created the [Darknet Neural Network framework](https://github.com/pjreddie/darknet) which YOLO uses for object detection. 
+YOLO was first outlined in a 2015 paper named ["You Only Look Once: Unified, Real-Time Object Detection"](https://arxiv.org/abs/1506.02640) by a group of professors from the University of Washington. One of the authors, Joseph Redmon (or GitHub user [pjreddie](https://github.com/pjreddie)) created the [Darknet Neural Network framework](https://github.com/pjreddie/darknet) which YOLO uses for object detection. 
 
 Currently on its third, and fourth iterations, the latest YOLOv3 paper from 2018 by Joseph Redmon and Ali Farhadi is named ["YOLOv3: An Incremental Improvement"](https://pjreddie.com/media/files/papers/YOLOv3.pdf). The fourth iteration has a paper named ["YOLOv4: Optimal Speed and Accuracy of Object Detection"](https://arxiv.org/abs/2004.10934) by Alexey Bochkovski et al., published in 2020, and another paper that published this year (2021), named ["Scaled-YOLOv4: Scaling Cross Stage Partial Network"](https://arxiv.org/abs/2011.08036). The latter is what I used for this project.
 
 <img src="./assets/img/yolov4_stats.png" width="600" />
 
-To utilize YOLOv4 or YOLOv4-tiny, you can find Alexey Bochkovski's forked github repository for Darknet [here](https://github.com/AlexeyAB/darknet). You can see in the image above how YOLOv4 and YOLOv4 are an improvement when compared to YOLOv3 and YOLOv3-tiny
+To utilize YOLOv4 or YOLOv4-tiny, you can find Alexey Bochkovski's forked GitHub repository for Darknet [here](https://github.com/AlexeyAB/darknet). You can see in the image above how YOLOv4 and YOLOv4 are an improvement when compared to YOLOv3 and YOLOv3-tiny
 
 <img src="./assets/img/yolo_03.png" width="600" />
 
@@ -411,7 +411,7 @@ The above picture shows the architecture of a YOLO Neural Network. Generally spe
 Just over a year ago, Joseph Redmon interestingly tweeted:
 >I stopped doing CV research because I saw the impact my work was having. I loved the work but the military applications and privacy concerns eventually became impossible to ignore.
 
-While this is unfortunate I ceratinly respect his decision. It should be interesting to see how the field of computer vision will progress from here.
+While this is unfortunate I certainly respect his decision. It should be interesting to see how the field of computer vision will progress from here.
 
 ---
 
@@ -461,7 +461,7 @@ Let's look at the comparison of render-times for each device and model:
 
 ###### It is worth noting that the YOLO models have less entries in the Data Frame. This is because each of the models ran about the same amount of time and the YOLO models took longer to render.
 
-It is easy to see what an extra two CPU cores and four times the memory can do to process facial recognition and image rendering. The laptop is able to process both the YOLO and Haar Cascade Models much faster so the rendered image appears in realtime. But until I can get a pan-tilt mechanism for my laptop, I will likely stick with Haar Cascades on my Raspberry Pi.
+It is easy to see what an extra two CPU cores and four times the memory can do to process facial recognition and image rendering. The laptop is able to process both the YOLO and Haar Cascade Models much faster so the rendered image appears in real-time. But until I can get a pan-tilt mechanism for my laptop, I will likely stick with Haar Cascades on my Raspberry Pi.
 
 
 ---
@@ -473,7 +473,7 @@ It is easy to see what an extra two CPU cores and four times the memory can do t
 
 While I got this project working there is certainly room for improvement. I have already started to stream the camera with Flask so I can stream video on my local network. It would be neat to add buttons on the webpage to make a more interactive experience.
 
-It would be great if I could use this in my living room or kitchen and have the camera track my son for phone calls with the grandparents. Too often I am following m,y son around with my phone for video calls and all you can see is the back of his head. So I hope I can use this with the screen-share feature in Google Duo for more interactive video calls with my mom and dad.
+It would be great if I could use this in my living room or kitchen and have the camera track my son for phone calls with the grandparents. Too often I am following my son around with my phone for video calls and all you can see is the back of his head. So I hope I can use this with the screen-share feature in Google Duo for more interactive video calls with my mom and dad.
 
 ---
 
@@ -520,7 +520,7 @@ https://www.youtube.com/watch?v=LmtHEBuJfII
 https://www.youtube.com/watch?v=joElT3UfspA
 
 
-##### Haar Casacade
+##### Haar Cascade
 https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html
 https://ieeexplore.ieee.org/document/710772
 https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf
