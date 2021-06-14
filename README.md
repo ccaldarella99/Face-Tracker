@@ -26,6 +26,8 @@ While the YOLO algorithm performs better, a Neural Net does not perform on restr
 
 However, not to take away from the Haar Cascade algorithm, if resources were not an issue the YOLOv4-tiny algorithm has little to no latency and out-performs the Haar Cascade algorithm.
 
+[Read the full write-up here](Face-Tracker_Report.md)
+
 
 ## File Directory
 [(back to top)](#Face-Tracker-Project)
